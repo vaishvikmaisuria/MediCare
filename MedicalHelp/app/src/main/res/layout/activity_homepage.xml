@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".homepage">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="150dp"
+        android:layout_height="71dp"
+        android:layout_alignStart="@+id/view_calendar"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="44dp"
+        android:text="Welcome!"
+        android:textSize="32dp" />
+
+    <Button
+        android:id="@+id/view_calendar"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="89dp"
+        android:layout_marginTop="147dp"
+        android:elevation="2dp"
+        android:text="View Calendar"
+        android:textSize="20dp" />
+
+
+    <Button
+        android:id="@+id/addMed"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/view_calendar"
+        android:layout_centerVertical="true"
+        android:elevation="2dp"
+        android:text="Add Medicine"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/patient"
+
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/view_calendar"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="110dp"
+        android:text="Find Patient"
+        android:textSize="20dp" />
+
+
+</RelativeLayout>

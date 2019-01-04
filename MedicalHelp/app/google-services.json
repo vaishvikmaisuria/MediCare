@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "775205412310",
+    "firebase_url": "https://medicare1-be94d.firebaseio.com",
+    "project_id": "medicare1-be94d",
+    "storage_bucket": "medicare1-be94d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775205412310:android:100d443d9b2bc50d",
+        "android_client_info": {
+          "package_name": "com.vashtron.vaishvik.medicalhelp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "775205412310-80gd46mo9pkfhdndu5obnf3f3vc7ctll.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vashtron.vaishvik.medicalhelp",
+            "certificate_hash": "6c503fd16c6a16db781581eb97b918c643ba8412"
+          }
+        },
+        {
+          "client_id": "775205412310-rm75ki3cmb574lp2h14h5irfj3uevvq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBez672aUBqmB-pkwU8B_SPn476qKMpHIA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "775205412310-rm75ki3cmb574lp2h14h5irfj3uevvq8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

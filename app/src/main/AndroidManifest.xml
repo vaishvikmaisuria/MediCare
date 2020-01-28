@@ -17,7 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".map_fragment"></activity>
+        <activity android:name=".Medical_History"></activity>
+        <activity android:name=".Calendar" />
+        <activity android:name=".sos_signal" />
+        <activity android:name=".map_fragment" />
         <activity android:name=".menu" />
         <activity android:name=".personal_info" />
         <activity android:name=".emergency_contact" />

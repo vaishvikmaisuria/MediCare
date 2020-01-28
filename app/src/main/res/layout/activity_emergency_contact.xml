@@ -23,6 +23,118 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="309dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="144dp"
+        android:hint="First Name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.367" />
+
+
+
+    <EditText
+        android:id="@+id/relationship"
+        android:layout_width="309dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="144dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.297"
+        android:hint="Relationship">
+
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="309dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="144dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="Address"
+        app:layout_constraintVertical_bias="0.432">
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/home"
+        android:layout_width="309dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="144dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.567"
+        android:hint="Home Telephone #">
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/work"
+        android:layout_width="309dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="144dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="Work Telephone #"
+        app:layout_constraintVertical_bias="0.699">
+
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/cell"
+        android:layout_width="309dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="144dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.828"
+        android:hint="Cell #">
+
+
+    </EditText>
+
+
+    <Button
+        android:id="@+id/updateEmr"
+        android:layout_width="213dp"
+        android:layout_height="54dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/filled_button_round"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="Update"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.93" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

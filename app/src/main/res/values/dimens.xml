@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">profile</string>
+
     <string name="regular_member">Regular Member</string>
     <string name="profile">Profile</string>
     <string name="member_since">Member since</string>

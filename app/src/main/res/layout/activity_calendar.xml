@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context=".Calendar">
+
+    <TextView
+        android:id="@+id/medicine_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medicine Time"
+        android:textColor="#FFF"
+        android:textSize="23sp"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="48dp"
+        />
+    <LinearLayout
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/bg_calender"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content">
+
+        <CalendarView
+            android:id="@+id/med_calender"
+            android:layout_width="wrap_content"
+            android:layout_height="330dp">
+
+
+        </CalendarView>
+
+
+    </LinearLayout>
+    
+    <Button
+    android:background="@drawable/bg_btn"
+    android:layout_marginLeft="45dp"
+    android:layout_marginTop="44dp"
+    android:text="Save my Date"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+
+    <Button
+        android:background="@drawable/bg_btn"
+        android:layout_marginLeft="230dp"
+        android:layout_marginTop="-48dp"
+        android:text="Export Dates"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

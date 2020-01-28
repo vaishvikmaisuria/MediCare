@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -38,7 +37,7 @@ public class menu extends AppCompatActivity {
         //I added this if statement to keep the selected fragment when rotating the device
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new SOSFragment()).commit();
+                    new AddMedicineFragment()).commit();
         }
 
     }
@@ -49,22 +48,22 @@ public class menu extends AppCompatActivity {
                     Fragment selectedFragment = null;
 
                     switch (item.getItemId()) {
-                        case R.id.nav_chat:
-                            selectedFragment = new AlertFragment();
-                            break;
-
                         case R.id.nav_signal:
                             selectedFragment = new AddMedicineFragment();
                             break;
+
                         case R.id.nav_location:
                             selectedFragment = new MapFragment();
                             break;
                         case R.id.nav_notifications:
                             selectedFragment = new CalenderFragment();
                             break;
-
                         case R.id.nav_profile:
                             selectedFragment = new ProfileFragment();
+                            break;
+
+                        case R.id.nav_chat:
+                            selectedFragment = new AlertFragment();
                             break;
                     }
 

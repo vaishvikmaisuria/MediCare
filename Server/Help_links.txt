@@ -1,0 +1,13 @@
+Resources:
+
+https://jwt.io/
+http://www.passportjs.org/packages/passport-jwt/
+https://medium.com/@therealchrisrutherford/nodejs-authentication-with-passport-and-jwt-in-express-3820e256054f
+
+https://www.youtube.com/watch?v=5WVEbU_bTeg
+
+https://cloud.mongodb.com/user?n=%2Fv2%2F5e2f4b9d014b76764ca32f62&nextHash=%23metrics%2FreplicaSet%2F5e2f4c95d5ec1316b1f94ebb%2Fexplorer%2Ftest%2Fusers%2Ffind#/atlas/login
+
+https://www.iana.org/assignments/jwt/jwt.xhtml
+
+https://medium.com/@ddarie/jwt-authentication-with-sha-and-rsa-307e272f913f

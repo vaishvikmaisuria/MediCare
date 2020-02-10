@@ -1,8 +1,4 @@
 const mongoose = require("mongoose");
-// use bcrypt to hash our password
-var bcrypt = require('bcryptjs');
-const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
 const Schema = mongoose.Schema
 
 
@@ -21,6 +17,15 @@ const UserSchema = new Schema({
   password: {
       type: String,
       required: true
+  },
+  path: {
+    type: String,
+  },
+  latitude: {
+    type: String,
+  },
+  longitude: {
+    type: String,
   }
 });
 

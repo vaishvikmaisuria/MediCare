@@ -4,6 +4,8 @@
     package="com.quickhealth.medicare">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -17,15 +19,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Medical_History"></activity>
+        <activity android:name=".scanResults"></activity>
+        <activity android:name=".Medical_History" />
         <activity android:name=".Calendar" />
         <activity android:name=".sos_signal" />
         <activity android:name=".map_fragment" />
         <activity android:name=".menu" />
         <activity android:name=".personal_info" />
         <activity android:name=".emergency_contact" />
-        <activity android:name=".profile" />
-        <activity android:name=".homepage" />
         <activity android:name=".forgot_password" />
         <activity android:name=".Register" />
         <activity android:name=".MainActivity">

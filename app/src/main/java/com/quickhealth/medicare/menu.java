@@ -63,7 +63,7 @@ public class menu extends AppCompatActivity {
                             break;
 
                         case R.id.nav_chat:
-                            selectedFragment = new AlertFragment();
+                            selectedFragment = new ContactFragment();
                             break;
                     }
 

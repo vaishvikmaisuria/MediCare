@@ -28,9 +28,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.quickhealth.medicare.httpRequestHelpers.httpPostRequest;
+import com.quickhealth.medicare.model.userResponse;
+import com.quickhealth.medicare.webservice.RetrofitClientInstance;
+import com.quickhealth.medicare.webservice.UserProfile;
+import com.quickhealth.medicare.webservice.Users;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +45,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -68,7 +77,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         username = (TextView) v.findViewById(R.id.username);
         aSwitch = (Switch) v.findViewById(R.id.switch1);
 
-        updateFields(User.User1);
+        updateFields();
 
         Button button = (Button) v.findViewById(R.id.button8);
         Button emergencyInfo = (Button) v.findViewById(R.id.button7);
@@ -193,22 +202,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
      *  Load user fields
      *
      */
-    private void updateFields(JSONObject user) {
-        try {
-            name.setText(User.User1.get("firstName").toString());
-            username.setText(User.User1.get("username").toString());
-
-            String path = getPhotoPath().toString();
-
-            if (path != "null") {
-                photo = BitmapFactory.decodeFile(path);
-                performCrop();
-            }
-
-        }catch (JSONException e){
-            return;
-        }
-
+    private void updateFields() {
+        name.setText(CurrentUser.getUserName());
+        username.setText(CurrentUser.getUserName());
     }
     public void openGallery() {
         Intent intent = new Intent();
@@ -223,7 +219,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     PermissionListener permissionlistener = new PermissionListener() {
         @Override
         public void onPermissionGranted() {
-            //Toast.makeText(ValidateDoctor.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(ValidateDoctor.this, "Permission Granted", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -236,29 +232,35 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
      *   Store photo path
      */
     public void storePhotoPath(String path) {
-        try {
+        // Get current logged in user's id
+        String id = CurrentUser.getUserID();
+//      Obtain an instance of Retrofit by calling the static method.
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+//      The main purpose of Retrofit is to create HTTP calls from the Java interface based on the annotation associated with each method. This is achieved by just passing the interface class as parameter to the create method
+        UserProfile usersProfile = retrofit.create(UserProfile.class);
+//      Invoke the method corresponding to the HTTP request which will return a Call object. This Call object will used to send the actual network request with the specified parameters
+        Call<String> call;
+        String token = CurrentUser.getUserToken();
+        Log.d("HolyFuck", "Hello" + CurrentUser.getUserToken() );
+        call = usersProfile.storePath(id, path, token);
 
-            // Get current logged in user's id
-            String id = User.getUser().get("_id").toString();
+//      This is the line which actually sends a network request. Calling enqueue() executes a call asynchronously. It has two callback listeners which will invoked on the main thread
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                /*This is the success callback. Though the response type is JSON, with Retrofit we get the response in the form of Json*/
+            }
 
-            // Create request body
-            Map<String, String> body = new HashMap<>();
-            body.put("id", id);
-            body.put("path", path);
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                /*This is the success callback. Though the response type is JSON, with Retrofit we get the response in the form of Json*/
 
-
-            // Create request to fetch user info
-            httpPostRequest task = new httpPostRequest(body);
-
-            String result = task.execute(endpoint + "/user/profilePicture").get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            }
+        });
     }
+
+
+
 
     /*
      *
@@ -266,38 +268,49 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public String getPhotoPath() {
         String photoPath = null;
 
-        try {
-            // Get current logged in user's id
-            String id = User.getUser().get("_id").toString();
+        // Get current logged in user's id
+        String id = CurrentUser.getUserID();
 
-            // Create request body
-            Map<String, String> body = new HashMap<>();
-            body.put("id", id);
+        // Obtain an instance of Retrofit by calling the static method.
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+        // The main purpose of Retrofit is to create HTTP calls from the Java interface based on the annotation associated with each method. This is achieved by just passing the interface class as parameter to the create method
+        UserProfile usersProfile = retrofit.create(UserProfile.class);
+        // Invoke the method corresponding to the HTTP request which will return a Call object. This Call object will used to send the actual network request with the specified parameters
+        Call<String> call;
+        String token = CurrentUser.getUserToken();
+        Log.d("HolyFuck", CurrentUser.getUserToken() );
+        call = usersProfile.getPath(id, token);
 
-            // Create request to fetch user info
-            httpPostRequest task = new httpPostRequest(body);
+        // This is the line which actually sends a network request. Calling enqueue() executes a call asynchronously. It has two callback listeners which will invoked on the main thread
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                /*This is the success callback. Though the response type is JSON, with Retrofit we get the response in the form of Json*/
+                if(response.isSuccessful()) {
+                    Log.d("myTag", response.body());
+                    CurrentUser.setUserProfilePic(response.body());
+                }
+            }
 
-            String result = task.execute(endpoint + "/user/getProfilePicture").get();
-            JSONObject json = new JSONObject(result);
-            photoPath = json.get("path").toString();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return photoPath;
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                /*This is the success callback. Though the response type is JSON, with Retrofit we get the response in the form of Json*/
+
+            }
+        });
+        return CurrentUser.getUserProfilePic();
+
     }
 
+
+
     private void logout(){
-        User.setUser(null);
-        User.acceptedDocter = null;
-        User.acceptedDocter = null;
-        User.acceptedUser = null;
-        User.items = new ArrayList<String>();
-
-
+        CurrentUser.setUserName(null);
+        CurrentUser.setUserID(null);
+        CurrentUser.setUserToken(null);
+        CurrentUser.setUserProfilePic(null);
+        CurrentUser.setUserLattitude(null);
+        CurrentUser.setUserLongitude(null);
 
         Intent intentOn2 = new Intent(getActivity(), MainActivity.class);
         startActivity(intentOn2);

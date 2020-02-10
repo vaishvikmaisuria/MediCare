@@ -2,7 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
 const users = require("./Routes/user");
-const mediHistory = require("./Routes/medicalhistory");
+const userProfile = require("./Routes/Profile");
+
 const cors = require("cors");
 require('dotenv').config(); 
 const cookieparser = require('cookie-parser');
@@ -13,7 +14,7 @@ const initializePassport = require('./passport_config');
 
 
 // import key
-const db = process.env.DB_URI;
+const db = process.env.DB_URI ;
 // create an express app
 const app = express();
 // define Port
@@ -34,11 +35,6 @@ mongoose
 app.use(passport.initialize());
 initializePassport(passport);
 
-// routes
-app.use(cors());
-app.use("/users", users);
-app.use("/Medicalhistory", passport.authenticate('jwt', {session:false}),mediHistory);
-
 //custom Middleware for logging the each request going to the API
 app.use((req,res,next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -49,9 +45,18 @@ app.use((req,res,next) => {
   if (req.body) console.log(req.body);
   if (req.params) console.log(req.params);
   if(req.query) console.log(req.query);
+  if(req) console.log(req.get("Authorization"));
   console.log(`Received a ${req.method} request from ${req.ip} for ${req.url}`);
   next();
 });
+
+// routes
+app.use(cors());
+app.use("/users", users);
+app.use("/profile", passport.authenticate('jwt', {session:false}), userProfile);
+
+
+
 
 // Testing
 app.get('/', (req, res) => {

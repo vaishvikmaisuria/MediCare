@@ -5,21 +5,14 @@ const User = require("../Models/User");
 // Import the the BcryptJS Library -> BcryptJS is a no setup encryption tool
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
+
 
 // import secret
-const secret = process.env.SECRET;
-
-/*  Manually add new user */
-const newUser = new User({
-  name: "Vash",
-  emailAddress: "vash23@gmail.com",
-  userName: "Vash7568",
-  password: "pass1234"
-})
-// newUser
-//   .save()
-//   .then(item => console.log(item))
-//   .catch(err => console.log(err));
+const secret = process.env.SECRET ;
+// import email password
+const emailPassword = process.env.EMAIL_PASS ;
 
 // Read all entries
 router.get('/all', (req, res) => {
@@ -62,6 +55,39 @@ router.post('/register', (req, res) => {
   });
 });
 
+// Forget password of user Route
+router.post('/forgetPassword', (req, res) => {
+  User.findOne({ emailAddress: req.body.emailAddress})
+    .then(user => {
+      console.log("us: "+ user);
+      
+    if (!user) {
+      error.email = "No Account Found";
+      return res.status(404).json(error);
+    } else{
+      let result = false;
+      try {
+        result = send_mail(user.emailAddress,  user.password)
+      } catch (error) {
+        res.json({
+          success: false,
+        });
+      }
+      
+      if (result){
+        res.json({
+          success: true,
+        });
+      }else{
+        res.status(500).json({
+          error: "Error sending email",
+          raw: err
+        });
+      }
+    }
+  });
+});
+
 //  Login Route
 router.post('/login', (req, res) => {
   const password = req.body.password;
@@ -90,7 +116,9 @@ router.post('/login', (req, res) => {
                 } else{
                   res.json({
                     success: true,
-                    token: `Bearer ${token}`
+                    token: `Bearer ${token}`,
+                    id: user._id,
+                    userName: user.userName
                   });
                 }
               });
@@ -107,5 +135,36 @@ router.post('/login', (req, res) => {
       console.log(err)
     })
 });
+
+function send_mail(email, password){
+  console.log(password)
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'mhealthcare83@gmail.com',
+      pass: 'MediCare7568'
+    }
+  });
+  
+  var mailOptions = {
+    from: 'mhealthcare83@gmail.com',
+    to: email,
+    subject: 'Sending Email using Node.js',
+    text: 'That was easy! Your Password is: ' + password
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+      return false
+    } else {
+      console.log('Email sent: ' + info.response);
+      return true
+    }
+  });
+}
+
+
+
 
 module.exports = router;

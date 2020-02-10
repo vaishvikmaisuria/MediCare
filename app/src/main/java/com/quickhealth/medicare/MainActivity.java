@@ -3,35 +3,42 @@ package com.quickhealth.medicare;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
 import com.google.android.material.snackbar.Snackbar;
-import com.quickhealth.medicare.Retrofit.INodeJs;
-import com.quickhealth.medicare.Retrofit.RetrofitClient;
-import com.quickhealth.medicare.User;
-import org.json.JSONObject;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import com.quickhealth.medicare.model.userResponse;
+import com.quickhealth.medicare.webservice.RetrofitClientInstance;
+import com.quickhealth.medicare.webservice.Users;
+
+
+import java.io.IOException;
+
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Retrofit;
 
 
 public class MainActivity extends AppCompatActivity {
 
     // public static JSONObject User = null;
-    private INodeJs myApi;
+
     private  final CompositeDisposable compositeDisposable = new CompositeDisposable();
-
-
     private Button loginbtn, registerbtn;
     private EditText usernameET, passwordET;
     private TextView forgotPassword;
     private ProgressBar spinner;
+    private RequestQueue mQueue;
+    private String url = "http://216.13.26.101/users/login";
 
     @Override
     protected void onStop(){
@@ -49,20 +56,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        usernameET = (EditText) findViewById(R.id.usernameView);
+        usernameET = (EditText) findViewById(R.id.useremailView);
         passwordET = (EditText) findViewById(R.id.passwordView);
         loginbtn = (Button) findViewById(R.id.loginButton);
         registerbtn = (Button) findViewById(R.id.registerButton);
         forgotPassword = (TextView) findViewById(R.id.forgotPass);
-        Retrofit retrofit = RetrofitClient.getInstance();
-        myApi = retrofit.create(INodeJs.class);
+
         spinner = (ProgressBar) findViewById(R.id.spin);
+        mQueue = VolleyMySingleton.getInstance(this).getRequestQueue();
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                LoginUser(usernameET.getText().toString(),passwordET.getText().toString());
+                LoginUser(usernameET.getText().toString(), passwordET.getText().toString());
                 //Snackbar.make(getRootView(),usernameET.getText().toString()+ " " +passwordET.getText() , Snackbar.LENGTH_LONG).show();\
             }
 
@@ -112,36 +117,65 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotomain(View view) {
-        Intent intent = new Intent(this, homepage.class);
+        Intent intent = new Intent(this, menu.class);
         startActivity(intent);
     }
 
 
 
-    private void LoginUser(String username,String password){
+    private void LoginUser(String emailAddress, String password) {
         spinner.setVisibility(View.VISIBLE);
-        compositeDisposable.add(myApi.loginUser(username,password)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
-                               @Override
-                               public void accept(String s) throws Exception {
+        spinner.setVisibility(View.INVISIBLE);
 
-                                   JSONObject response = new JSONObject(s);
-                                   if(response.has("error")){
-                                       //Log.d(LOG_TAG, "Register button clicked!");
-                                       Snackbar.make(getRootView(), response.get("error").toString(), Snackbar.LENGTH_LONG).show();
-                                       spinner.setVisibility(View.INVISIBLE);
-                                   }else {
-                                       User.setUser(response);
-                                       gotomain(getRootView());
-                                       spinner.setVisibility(View.INVISIBLE);
-                                   }
-                               }
-                           }
-                ));
+//      Obtain an instance of Retrofit by calling the static method.
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+        /*
+        The main purpose of Retrofit is to create HTTP calls from the Java interface based on the annotation associated with each method. This is achieved by just passing the interface class as parameter to the create method
+        */
+        Users users = retrofit.create(Users.class);
+        /*
+        Invoke the method corresponding to the HTTP request which will return a Call object. This Call object will used to send the actual network request with the specified parameters
+        */
+        Call<userResponse> call;
+
+        call = users.loginUser(emailAddress, password);
+        /*
+        This is the line which actually sends a network request. Calling enqueue() executes a call asynchronously. It has two callback listeners which will invoked on the main thread
+        */
+        call.enqueue(new Callback<userResponse>() {
+            @Override
+            public void onResponse(Call<userResponse> call, retrofit2.Response<userResponse> response) {
+                /*This is the success callback. Though the response type is JSON, with Retrofit we get the response in the form of Json*/
+
+                if(response.isSuccessful()) {
+
+                    userResponse userID = response.body();
 
 
+                    CurrentUser.setUserID(userID.getId());
+                    CurrentUser.setUserToken(userID.getToken());
+                    CurrentUser.setUserName(userID.getUserName());
+                    gotomain(getRootView());
+                    spinner.setVisibility(View.INVISIBLE);
+
+                }else{
+                    Snackbar.make(getRootView(), "response is not successfull", Snackbar.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<userResponse> call, Throwable t) {
+                /*This is the success callback. Though the response type is JSON, with Retrofit we get the response in the form of Json*/
+                if (t instanceof IOException) {
+                    Toast.makeText(MainActivity.this, "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+                    // logging probably not necessary
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "conversion issue! big problems :(", Toast.LENGTH_SHORT).show();
+                    // todo log to some central bug tracking service
+                }
+            }
+        });
     }
-
 }

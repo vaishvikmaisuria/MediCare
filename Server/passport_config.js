@@ -1,7 +1,7 @@
 const User = require("./Models/User");
 const mongoose = require("mongoose");
 const { Strategy, ExtractJwt } = require('passport-jwt');
-
+require('dotenv').config();
 
 // import secret
 
@@ -19,7 +19,7 @@ const opts = {
 module.exports = passport => {
   passport.use(
     new Strategy(opts, (jwt_payload, done) => {
-      User.findById(jwt_payload.data._id)
+      User.findById(jwt_payload.id)
       .then(user => {
         if (user) {
           return done(null, {

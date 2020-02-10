@@ -10,8 +10,8 @@
         android:id="@+id/imageView2"
         android:layout_width="245dp"
         android:layout_height="319dp"
-        android:src="@drawable/lock"
-        app:layout_constraintBottom_toTopOf="@+id/usernameView"
+        android:src="@drawable/grandparents"
+        app:layout_constraintBottom_toTopOf="@+id/useremailView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,8 +19,8 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <EditText
-        android:id="@+id/usernameView"
-        android:layout_width="217dp"
+        android:id="@+id/useremailView"
+        android:layout_width="240dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -28,7 +28,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/rounded_corner_button"
-        android:text="Username"
+        android:text="vash23@gmail.com"
+        android:textSize="15dp"
+        android:gravity = "center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/maincolour"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,12 +48,14 @@
         android:layout_marginRight="8dp"
         android:background="@drawable/rounded_corner_button"
         android:inputType="textPassword"
-        android:text="Password"
+        android:text="vash1234"
+        android:textSize="15dp"
+        android:gravity = "center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/maincolour"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameView" />
+        app:layout_constraintTop_toBottomOf="@+id/useremailView" />
 
     <!--<EditText
         android:id="@+id/editText"
@@ -79,6 +83,7 @@
         android:gravity="center"
         android:padding="15dp"
         android:text="Login"
+        android:textSize="18dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -98,6 +103,7 @@
         android:gravity="center"
         android:padding="15dp"
         android:text="Register"
+        android:textSize="18dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -116,6 +122,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginEnd="148dp"
         android:layout_marginRight="148dp"
+        android:gravity="center"
         android:text="Forgot Password?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
